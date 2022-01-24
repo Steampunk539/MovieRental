@@ -29,7 +29,8 @@ class Movie(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     type = models.ForeignKey(MovieType, on_delete=models.CASCADE)
     description = models.CharField(max_length=2000)
+    available = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.title} {self.author} {self.type}"
+        return f"{self.title} {self.author} {self.type}, available: {self.available}"
 
