@@ -1,7 +1,7 @@
 from .models import Movie
 
 
-class MovieNotFound:
+class MovieToReturnNotFound:
     pass
 
 
@@ -18,7 +18,7 @@ class ReturnUseCase:
     def invoke(self, movie_uuid):
         movie_query = Movie.objects.filter(id=movie_uuid)
         if not movie_query.exists():
-            return MovieNotFound()
+            return MovieToReturnNotFound()
 
         movie = movie_query.first()
         if not movie.available:

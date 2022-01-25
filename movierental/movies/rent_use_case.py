@@ -22,7 +22,6 @@ class RentUseCase:
 
         movie = movie_query.first()
         if not movie.available:
-            print("llalal")
             return MovieAlreadyRented()
 
         movie.available = False

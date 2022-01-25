@@ -5,24 +5,25 @@ from rest_framework.views import APIView
 from .models import Movie, Author, MovieType
 from .serializers import MovieSerializer, AuthorSerializer, MovieTypeSerializer
 from rest_framework import generics, status
-import rent_use_case
-import return_use_case
+
+from .return_use_case import *
+from .rent_use_case import *
 
 # Create your views here.
 
 class RentMovie(APIView):
 
-    rentUseCase = rent_use_case.RentUseCase
+    rentUseCase = RentUseCase
 
     def put(self, request, pk):
         result = self.rentUseCase().invoke(pk)
         print(type(result))
         status_code = status.HTTP_202_ACCEPTED
         status_message = "Movie Rented"
-        if isinstance(result, rent_use_case.MovieNotFound):
+        if isinstance(result, MovieNotFound):
             status_code = status.HTTP_404_NOT_FOUND
             status_message = "Movie not found"
-        if isinstance(result, rent_use_case.MovieAlreadyRented):
+        if isinstance(result, MovieAlreadyRented):
             status_code = status.HTTP_208_ALREADY_REPORTED
             status_message = "Movie already rented"
         return Response(
@@ -31,19 +32,21 @@ class RentMovie(APIView):
                 "status": status_message
             }
         )
+
+
 class ReturnMovie(APIView):
 
-    returnUseCase = return_use_case.ReturnUseCase
+    returnUseCase = ReturnUseCase
 
     def put(self, request, pk):
         result = self.returnUseCase().invoke(pk)
         print(type(result))
-        status_code = status.HTTP_202_ACCEPTED
-        status_message = "Movie Returned"
-        if isinstance(result, return_use_case.MovieNotFound):
+        status_code = status.HTTP_208_ALREADY_REPORTED
+        status_message = "Movie Not rented"
+        if isinstance(result, MovieToReturnNotFound):
             status_code = status.HTTP_404_NOT_FOUND
             status_message = "Movie not found"
-        if isinstance(result, return_use_case. MovieReturnSuccess):
+        if isinstance(result,  MovieReturnSuccess):
             status_code = status.HTTP_200_OK
             status_message = "Movie is returned"
         return Response(
