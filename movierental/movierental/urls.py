@@ -26,4 +26,5 @@ urlpatterns = [
     path('author/', views.AuthorList.as_view()),
     path('author/<uuid:pk>/', views.AuthorDetail.as_view()),
     path('movies/rent/<uuid:pk>/', views.RentMovie.as_view()),
+    path('movies/return/<uuid:pk>/', views.ReturnMovie.as_view()),
 ]

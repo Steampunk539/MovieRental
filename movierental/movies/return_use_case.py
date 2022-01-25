@@ -5,15 +5,15 @@ class MovieNotFound:
     pass
 
 
-class MovieRentSuccess:
+class MovieReturnSuccess:
     pass
 
 
-class MovieAlreadyRented:
+class MovieNotRented:
     pass
 
 
-class RentUseCase:
+class ReturnUseCase:
 
     def invoke(self, movie_uuid):
         movie_query = Movie.objects.filter(id=movie_uuid)
@@ -22,9 +22,10 @@ class RentUseCase:
 
         movie = movie_query.first()
         if not movie.available:
-            print("llalal")
-            return MovieAlreadyRented()
+            print("Udało się zwrócić")
+            movie.available = True
+            movie.save()
+            return MovieReturnSuccess()
 
-        movie.available = False
-        movie.save()
-        return MovieRentSuccess()
+        print("Film nie był wypożyczony")
+        return MovieNotRented()
