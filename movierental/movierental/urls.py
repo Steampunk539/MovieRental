@@ -25,4 +25,5 @@ urlpatterns = [
     path('movietype/<uuid:pk>/', views.MovieTypeDetail.as_view()),
     path('author/', views.AuthorList.as_view()),
     path('author/<uuid:pk>/', views.AuthorDetail.as_view()),
+    path('movies/rent/<uuid:pk>/', views.RentMovie.as_view()),
 ]
